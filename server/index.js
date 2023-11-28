@@ -9,5 +9,8 @@ const io = new Server(PORT, {
 });
 
 io.on("connection", (socket) => {
+  socket.on("send-changes", (delta) => {
+    socket.broadcast.emit("receive-changes", delta);
+  });
   console.log(`Socket id: ${socket.id} connected at port ${PORT}`);
 });

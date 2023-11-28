@@ -30,6 +30,9 @@ const toolbarOptions = [
   ["clean"], // remove formatting button
 ];
 const Editor = () => {
+  const [socket, setSocket] = useState();
+  const [quill, setQuill] = useState();
+
   useEffect(() => {
     const quillServer = new Quill("#container", {
       theme: "snow",
@@ -37,14 +40,40 @@ const Editor = () => {
         toolbar: toolbarOptions,
       },
     });
+    setQuill(quillServer);
   }, []);
 
   useEffect(() => {
     const socketServer = io("http://localhost:9000/");
+    setSocket(socketServer);
     return () => {
       socketServer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (socket === null || quill === null) return;
+    const handleChange = (delta, oldData, source) => {
+      if (source !== "user") return;
+
+      socket && socket.emit("send-changes", delta);
+    };
+    quill && quill.on("text-change", handleChange);
+    return () => {
+      quill && quill.off("text-change", handleChange);
+    };
+  }, [quill, socket]);
+
+  useEffect(() => {
+    if (socket === null || quill === null) return;
+    const handleChange = (delta) => {
+      quill.updateContents(delta);
+    };
+    socket && socket.on("receive-changes", handleChange);
+    return () => {
+      socket && socket.off("receive-changes", handleChange);
+    };
+  }, [quill, socket]);
 
   return (
     <Component>
