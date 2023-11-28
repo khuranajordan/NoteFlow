@@ -16,3 +16,9 @@
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
+
+.save {
+  width: 60%;
+  margin: 10px auto;
+  color: #cecece;
+}

@@ -5,6 +5,7 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { io } from "socket.io-client";
 import styled from "@emotion/styled";
+import { useParams } from "react-router-dom";
 
 const Component = styled.div`
   background: #f5f5f5;
@@ -32,6 +33,8 @@ const toolbarOptions = [
 const Editor = () => {
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
+  const [showSavedMessage, setShowSavedMessage] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
     const quillServer = new Quill("#container", {
@@ -40,6 +43,8 @@ const Editor = () => {
         toolbar: toolbarOptions,
       },
     });
+    quillServer.disable();
+    quillServer.setText("Loading the document...");
     setQuill(quillServer);
   }, []);
 
@@ -75,8 +80,37 @@ const Editor = () => {
     };
   }, [quill, socket]);
 
+  useEffect(() => {
+    if (socket === null || quill === null) return;
+
+    socket &&
+      socket.once("load-document", (document) => {
+        quill && quill.setContents(document);
+        quill && quill.enable();
+      });
+
+    socket && socket.emit("get-document", id);
+  }, [quill, socket, id]);
+
+  useEffect(() => {
+    if (socket === null || quill === null) return;
+
+    const interval = setInterval(() => {
+      socket && socket.emit("save-document", quill.getContents());
+      setShowSavedMessage(true);
+      setTimeout(() => {
+        setShowSavedMessage(false);
+      }, 1500);
+    }, 1500);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [socket, quill]);
+
   return (
     <Component>
+      {showSavedMessage && <Box className="save">Saved!</Box>}
       <Box id="container" className="container"></Box>
     </Component>
   );
