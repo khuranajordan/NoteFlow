@@ -14,6 +14,18 @@ NoteFlow is a real-time collaborative document editing platform inspired by Goog
 - **Document versioning:** Track and revert to previous document versions.
 - **Responsive design:** Access NoteFlow seamlessly on various devices.
 
+## Technologies Used
+
+- **React.js:** A JavaScript library for building user interfaces, React provides the foundation for the front-end development of NoteFlow, enabling a responsive and dynamic user experience.
+
+- **Quill.js:** A feature-rich, open-source WYSIWYG (What You See Is What You Get) text editor, Quill.js powers the text editing capabilities of NoteFlow, offering users a seamless and intuitive writing experience.
+
+- **Socket.IO:** This library enables real-time, bidirectional, and event-based communication between clients and the server. NoteFlow leverages Socket.IO for instant collaboration, allowing multiple users to edit documents simultaneously.
+
+- **Node.js and Express:** The server-side of NoteFlow is built using Node.js, with the Express framework providing a robust and scalable server structure. Node.js facilitates the handling of WebSocket connections through Socket.IO.
+
+- **MongoDB:** As a NoSQL database, MongoDB is utilized for storing documents and user data in a scalable and flexible manner.
+
 ## Getting Started
 
 ### Prerequisites

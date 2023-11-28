@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const Connection = async () => {
-  const URL =
-    "mongodb+srv://rohankhurana20:Khurana.rohan123@cluster0.k4dlppe.mongodb.net/?retryWrites=true&w=majority";
+  const URL = process.env.MONGODB_URI;
   try {
     await mongoose.connect(URL, {
       useUnifiedTopology: true,
