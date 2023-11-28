@@ -42,7 +42,7 @@ const Editor = () => {
   useEffect(() => {
     const socketServer = io("http://localhost:9000/");
     return () => {
-      socket.disconnect();
+      socketServer.disconnect();
     };
   }, []);
 
