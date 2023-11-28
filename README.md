@@ -45,5 +45,5 @@ We welcome contributions from the community to make NoteFlow even better! To con
 4. Push to your branch: git push origin feature-name.
 Submit a pull request.
 
-![Editor with extensive toolbar:](image.png)
+![Editor with extensive toolbar:](/image.png)
 
