@@ -1,8 +1,9 @@
 /* eslint-disable */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
+import { io } from "socket.io-client";
 import styled from "@emotion/styled";
 
 const Component = styled.div`
@@ -36,6 +37,13 @@ const Editor = () => {
         toolbar: toolbarOptions,
       },
     });
+  }, []);
+
+  useEffect(() => {
+    const socketServer = io("http://localhost:9000/");
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
