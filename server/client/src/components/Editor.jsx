@@ -49,7 +49,7 @@ const Editor = () => {
   }, []);
 
   useEffect(() => {
-    const socketServer = io("");
+    const socketServer = io("http://localhost:9000");
     setSocket(socketServer);
     return () => {
       socketServer.disconnect();
